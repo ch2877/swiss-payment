@@ -7,7 +7,7 @@
 
 ## Installation
 
-Just install [Composer](http://getcomposer.org) and run `composer require z38/swiss-payment` in your project directory.
+Just install [Composer](http://getcomposer.org) and run `composer require ch2877/swiss-payment` in your project directory.
 
 ## Usage
 
