@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit colors="true">
+<phpunit
+        colors = "true"
+        convertDeprecationsToExceptions = "false"
+>
     <testsuites>
         <testsuite name="SwissPayment Test Suite">
             <directory>tests/Z38/SwissPayment</directory>

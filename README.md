@@ -1,7 +1,6 @@
 # SwissPayment
 
-[![Build Status](https://travis-ci.org/z38/swiss-payment.png?branch=master)](https://travis-ci.org/z38/swiss-payment)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/z38/swiss-payment/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/z38/swiss-payment/?branch=master)
+[![Build Status](https://github.com/ch2877/swiss-payment/actions/workflows/tests.yml/badge.svg)](https://github.com/ch2877/swiss-payment/actions)
 
 **SwissPayment** is a PHP library to generate Swiss pain.001 XML messages (complies with ISO-20022).
 
