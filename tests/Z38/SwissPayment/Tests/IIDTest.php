@@ -32,10 +32,10 @@ class IIDTest extends TestCase
     /**
      * @dataProvider invalidSamples
      * @covers ::__construct
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidLength($iid)
     {
+        $this->expectException(\InvalidArgumentException::class);
         new IID($iid);
     }
 
@@ -79,10 +79,10 @@ class IIDTest extends TestCase
 
     /**
      * @cover ::fromIban
-     * @expectedException \InvalidArgumentException
      */
     public function testFromIBANForeign()
     {
+        $this->expectException(\InvalidArgumentException::class);
         IID::fromIBAN(new IBAN('GB29 NWBK 6016 1331 9268 19'));
     }
 

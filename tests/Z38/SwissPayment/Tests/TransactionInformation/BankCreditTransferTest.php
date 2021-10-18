@@ -17,12 +17,12 @@ class BankCreditTransferTest extends TestCase
 {
     /**
      * @covers ::__construct
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidCreditorAgent()
     {
         $creditorAgent = $this->createMock(FinancialInstitutionInterface::class);
 
+        $this->expectException(\InvalidArgumentException::class);
         $transfer = new BankCreditTransfer(
             'id000',
             'name',
@@ -36,10 +36,10 @@ class BankCreditTransferTest extends TestCase
 
     /**
      * @covers ::__construct
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidAmount()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $transfer = new BankCreditTransfer(
             'id000',
             'name',
