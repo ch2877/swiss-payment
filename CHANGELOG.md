@@ -1,13 +1,16 @@
 # SwissPayment Changelog
 
-## 1.1.0 (2021-xx-yy)
+## 2.0.0 (2021-10-19)
 
+  * Added support for QR Bills (BankCreditTransferWithCreditorReference, BankCreditTransferWithQRR)
   * Renamed Mixed to MixedMoney (reserved word as of PHP 7).
-  * Dropped support for PHP 5.6.
+  * Added Support for PHP 8.0
+  * Dropped support for PHP 7.1 and 7.2
 
 ## 1.0.0 (2021-10-18)
 
   * Forked from z38/swiss-payment due to lack of maintenance on the old Project
+  * Dropped support for PHP 5.6.
 
 ## 0.7.0 (2019-01-05)
 

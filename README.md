@@ -1,6 +1,7 @@
 # SwissPayment
 
 [![Build Status](https://github.com/ch2877/swiss-payment/actions/workflows/tests.yml/badge.svg)](https://github.com/ch2877/swiss-payment/actions)
+[![Tested on PHP PHP 7.2, 7.3, 7.4, 8.0](https://img.shields.io/badge/tested%20on-7.2%20|%207.3%20|%207.4%20|%208.0%20-brightgreen.svg?maxAge=2419200)](https://github.com/ch2877/swiss-payment/actions?query=workflow%3ATest)
 
 **SwissPayment** is a PHP library to generate Swiss pain.001 XML messages (complies with ISO-20022).
 
