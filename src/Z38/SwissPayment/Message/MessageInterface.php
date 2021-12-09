@@ -8,7 +8,7 @@ namespace Z38\SwissPayment\Message;
 interface MessageInterface
 {
     /**
-     * Returns a XML representation of the message
+     * Returns an XML representation of the message
      *
      * @return string The XML source
      */

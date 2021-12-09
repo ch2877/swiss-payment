@@ -2,17 +2,20 @@
 
 namespace Z38\SwissPayment;
 
+use DOMDocument;
+use DOMElement;
+
 /**
  * PostalAddressInterface
  */
 interface PostalAddressInterface
 {
     /**
-     * Returns a XML representation of the address
+     * Returns an XML representation of the address
      *
-     * @param \DOMDocument $doc
+     * @param DOMDocument $doc
      *
-     * @return \DOMElement The built DOM element
+     * @return DOMElement The built DOM element
      */
-    public function asDom(\DOMDocument $doc);
+    public function asDom(DOMDocument $doc);
 }

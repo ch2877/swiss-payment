@@ -2,6 +2,8 @@
 
 namespace Z38\SwissPayment\Tests\Message;
 
+use DOMDocument;
+use DOMXPath;
 use Z38\SwissPayment\BIC;
 use Z38\SwissPayment\FinancialInstitutionAddress;
 use Z38\SwissPayment\GeneralAccount;
@@ -27,11 +29,17 @@ use Z38\SwissPayment\TransactionInformation\PurposeCode;
 use Z38\SwissPayment\TransactionInformation\SEPACreditTransfer;
 use Z38\SwissPayment\UnstructuredPostalAddress;
 
+/**
+ * @coversDefaultClass \Z38\SwissPayment\Message\CustomerCreditTransfer
+ */
 class CustomerCreditTransferTest extends TestCase
 {
-    const SCHEMA = 'http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd';
-    const SCHEMA_PATH = 'pain.001.001.03.ch.02.xsd';
+    private const SCHEMA = 'http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd';
+    private const SCHEMA_PATH = 'pain.001.001.03.ch.02.xsd';
 
+    /**
+     * @return CustomerCreditTransfer
+     */
     protected function buildMessage()
     {
         $message = new CustomerCreditTransfer('message-000', 'InnoMuster AG');
@@ -257,9 +265,9 @@ class CustomerCreditTransferTest extends TestCase
     {
         $xml = $this->buildMessage()->asXml();
 
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         $doc->loadXML($xml);
-        $xpath = new \DOMXPath($doc);
+        $xpath = new DOMXPath($doc);
         $xpath->registerNamespace('pain001', self::SCHEMA);
 
         $nbOfTxs = $xpath->evaluate('string(//pain001:GrpHdr/pain001:NbOfTxs)');
@@ -274,7 +282,7 @@ class CustomerCreditTransferTest extends TestCase
         $xml = $this->buildMessage()->asXml();
         $schemaPath = __DIR__.'/../../../../'.self::SCHEMA_PATH;
 
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         $doc->loadXML($xml);
 
         libxml_use_internal_errors(true);

@@ -18,7 +18,7 @@ interface AccountInterface
     public function format();
 
     /**
-     * Returns a XML representation to identify the account
+     * Returns an XML representation to identify the account
      *
      * @param DOMDocument $doc
      *

@@ -3,14 +3,14 @@
 namespace Z38\SwissPayment;
 
 use DOMDocument;
+use InvalidArgumentException;
 
 /**
  * IBAN
  */
 class IBAN implements AccountInterface
 {
-    const MAX_LENGTH = 34;
-    const PATTERN = '/^[A-Z]{2,2}[0-9]{2,2}[A-Z0-9]{1,30}$/';
+    private const PATTERN = '/^[A-Z]{2,2}[0-9]{2,2}[A-Z0-9]{1,30}$/';
 
     /**
      * @var string
@@ -22,16 +22,16 @@ class IBAN implements AccountInterface
      *
      * @param string $iban
      *
-     * @throws \InvalidArgumentException When the IBAN does contain invalid characters or the checksum calculation fails.
+     * @throws InvalidArgumentException When the IBAN does contain invalid characters or the checksum calculation fails.
      */
     public function __construct($iban)
     {
         $cleanedIban = str_replace(' ', '', strtoupper($iban));
         if (!preg_match(self::PATTERN, $cleanedIban)) {
-            throw new \InvalidArgumentException('IBAN is not properly formatted.');
+            throw new InvalidArgumentException('IBAN is not properly formatted.');
         }
         if (!self::check($cleanedIban)) {
-            throw new \InvalidArgumentException('IBAN has an invalid checksum.');
+            throw new InvalidArgumentException('IBAN has an invalid checksum.');
         }
 
         $this->iban = $cleanedIban;

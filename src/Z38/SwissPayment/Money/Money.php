@@ -2,6 +2,8 @@
 
 namespace Z38\SwissPayment\Money;
 
+use InvalidArgumentException;
+
 /**
  * Base class for all currencies
  */
@@ -66,54 +68,54 @@ abstract class Money
     }
 
     /**
-     * Returns the sum of this and an other amount of money
+     * Returns the sum of this and another amount of money
      *
      * @param Money $addend The addend
      *
      * @return Money The sum
      *
-     * @throws \InvalidArgumentException When the currencies do not match
+     * @throws InvalidArgumentException When the currencies do not match
      */
     public function plus(self $addend)
     {
         if ($this->getCurrency() !== $addend->getCurrency()) {
-            throw new \InvalidArgumentException('Can not add different currencies');
+            throw new InvalidArgumentException('Can not add different currencies');
         }
 
         return new static($this->cents + $addend->getAmount());
     }
 
     /**
-     * Returns the subtraction of this and an other amount of money
+     * Returns the subtraction of this and another amount of money
      *
      * @param Money $subtrahend The subtrahend
      *
      * @return Money The difference
      *
-     * @throws \InvalidArgumentException When the currencies do not match
+     * @throws InvalidArgumentException When the currencies do not match
      */
     public function minus(self $subtrahend)
     {
         if ($this->getCurrency() !== $subtrahend->getCurrency()) {
-            throw new \InvalidArgumentException('Can not subtract different currencies');
+            throw new InvalidArgumentException('Can not subtract different currencies');
         }
 
         return new static($this->cents - $subtrahend->getAmount());
     }
 
     /**
-     * Compares this instance with an other instance.
+     * Compares this instance with another instance.
      *
      * @param Money $b The instance to which this instance is to be compared.
      *
      * @return int -1, 0 or 1 as this instance is less than, equal to, or greater than $b
      *
-     * @throws \InvalidArgumentException When the currencies do not match
+     * @throws InvalidArgumentException When the currencies do not match
      */
     public function compareTo(self $b)
     {
         if ($this->getCurrency() !== $b->getCurrency()) {
-            throw new \InvalidArgumentException('Can not compare different currencies');
+            throw new InvalidArgumentException('Can not compare different currencies');
         }
 
         if ($this->getAmount() < $b->getAmount()) {

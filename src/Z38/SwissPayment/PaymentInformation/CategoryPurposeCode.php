@@ -3,6 +3,7 @@
 namespace Z38\SwissPayment\PaymentInformation;
 
 use DOMDocument;
+use DOMElement;
 use InvalidArgumentException;
 
 /**
@@ -33,11 +34,11 @@ class CategoryPurposeCode
     }
 
     /**
-     * Returns a XML representation of this purpose
+     * Returns an XML representation of this purpose
      *
-     * @param \DOMDocument $doc
+     * @param DOMDocument $doc
      *
-     * @return \DOMElement The built DOM element
+     * @return DOMElement The built DOM element
      */
     public function asDom(DOMDocument $doc)
     {

@@ -2,17 +2,20 @@
 
 namespace Z38\SwissPayment;
 
+use DOMDocument;
+use DOMElement;
+
 /**
  * General interface for financial institutions
  */
 interface FinancialInstitutionInterface
 {
     /**
-     * Returns a XML representation to identify the financial institution
+     * Returns an XML representation to identify the financial institution
      *
-     * @param \DOMDocument $doc
+     * @param DOMDocument $doc
      *
-     * @return \DOMElement The built DOM element
+     * @return DOMElement The built DOM element
      */
-    public function asDom(\DOMDocument $doc);
+    public function asDom(DOMDocument $doc);
 }

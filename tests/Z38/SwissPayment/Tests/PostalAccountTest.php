@@ -2,6 +2,7 @@
 
 namespace Z38\SwissPayment\Tests;
 
+use InvalidArgumentException;
 use Z38\SwissPayment\PostalAccount;
 
 /**
@@ -18,6 +19,9 @@ class PostalAccountTest extends TestCase
         self::assertInstanceOf('Z38\SwissPayment\PostalAccount', new PostalAccount($postalAccount));
     }
 
+    /**
+     * @return string[][]
+     */
     public function validSamples()
     {
         return [
@@ -37,11 +41,14 @@ class PostalAccountTest extends TestCase
      */
     public function testInvalidFormat($postalAccount)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Postal account number is not properly formatted.');
         new PostalAccount($postalAccount);
     }
 
+    /**
+     * @return string[][]
+     */
     public function invalidFormatSamples()
     {
         return [
@@ -59,11 +66,14 @@ class PostalAccountTest extends TestCase
      */
     public function testInvalidCheckDigit($postalAccount)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Postal account number has an invalid check digit.');
         new PostalAccount($postalAccount);
     }
 
+    /**
+     * @return string[][]
+     */
     public function invalidCheckDigitSamples()
     {
         return [

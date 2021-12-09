@@ -2,6 +2,8 @@
 
 namespace Z38\SwissPayment\Tests\TransactionInformation;
 
+use InvalidArgumentException;
+use LogicException;
 use Z38\SwissPayment\ISRParticipant;
 use Z38\SwissPayment\Money;
 use Z38\SwissPayment\StructuredPostalAddress;
@@ -18,8 +20,8 @@ class ISRCreditTransferTest extends TestCase
      */
     public function testInvalidAmount()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $transfer = new ISRCreditTransfer(
+        $this->expectException(InvalidArgumentException::class);
+        new ISRCreditTransfer(
             'id000',
             'name',
             new Money\USD(100),
@@ -33,8 +35,8 @@ class ISRCreditTransferTest extends TestCase
      */
     public function testInvalidCreditorReference()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $transfer = new ISRCreditTransfer(
+        $this->expectException(InvalidArgumentException::class);
+        new ISRCreditTransfer(
             'id000',
             'name',
             new Money\CHF(100),
@@ -48,7 +50,7 @@ class ISRCreditTransferTest extends TestCase
      */
     public function testSetRemittanceInformation()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $transfer = new ISRCreditTransfer(
             'id000',
             'name',

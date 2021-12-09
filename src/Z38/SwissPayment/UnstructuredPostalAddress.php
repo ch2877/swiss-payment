@@ -2,8 +2,11 @@
 
 namespace Z38\SwissPayment;
 
+use DOMDocument;
+use InvalidArgumentException;
+
 /**
- * This class holds a unstructured representation of a postal address
+ * This class holds an unstructured representation of a postal address
  */
 class UnstructuredPostalAddress implements PostalAddressInterface
 {
@@ -24,7 +27,7 @@ class UnstructuredPostalAddress implements PostalAddressInterface
      * @param string $addressLine2 Postcode and town
      * @param string $country      Country code (ISO 3166-1 alpha-2)
      *
-     * @throws \InvalidArgumentException When the address contains invalid characters or is too long.
+     * @throws InvalidArgumentException When the address contains invalid characters or is too long.
      */
     public function __construct($addressLine1 = null, $addressLine2 = null, $country = 'CH')
     {
@@ -59,7 +62,7 @@ class UnstructuredPostalAddress implements PostalAddressInterface
     /**
      * {@inheritdoc}
      */
-    public function asDom(\DOMDocument $doc)
+    public function asDom(DOMDocument $doc)
     {
         $root = $doc->createElement('PstlAdr');
 

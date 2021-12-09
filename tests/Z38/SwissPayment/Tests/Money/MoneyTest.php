@@ -2,9 +2,14 @@
 
 namespace Z38\SwissPayment\Tests\Money;
 
+use InvalidArgumentException;
+use stdClass;
 use Z38\SwissPayment\Money;
 use Z38\SwissPayment\Tests\TestCase;
 
+/**
+ * @coversDefaultClass \Z38\SwissPayment\Money\Money
+ */
 class MoneyTest extends TestCase
 {
     /**
@@ -65,9 +70,9 @@ class MoneyTest extends TestCase
         self::assertTrue($instance->equals($instance));
         self::assertTrue($instance->equals(new Money\CHF(-451)));
 
-        self::assertFalse($instance->equals(false));
+        self::assertNotFalse($instance);
         self::assertFalse($instance->equals(null));
-        self::assertFalse($instance->equals(new \stdClass()));
+        self::assertFalse($instance->equals(new stdClass()));
         self::assertFalse($instance->equals(new Money\EUR(-451)));
         self::assertFalse($instance->equals(new Money\CHF(-41)));
     }
@@ -91,7 +96,7 @@ class MoneyTest extends TestCase
      */
     public function testInvalidPlus($a, $b)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $a->plus($b);
     }
 
@@ -101,7 +106,7 @@ class MoneyTest extends TestCase
      */
     public function testInvalidMinus($a, $b)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $a->minus($b);
     }
 
@@ -111,10 +116,13 @@ class MoneyTest extends TestCase
      */
     public function testInvalidCompareTo($a, $b)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $a->compareTo($b);
     }
 
+    /**
+     * @return array[]
+     */
     public function validSamplePairs()
     {
         return [
@@ -125,6 +133,9 @@ class MoneyTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     */
     public function invalidSamplePairs()
     {
         return [

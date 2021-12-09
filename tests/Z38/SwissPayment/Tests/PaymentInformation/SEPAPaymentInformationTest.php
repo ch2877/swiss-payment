@@ -2,6 +2,9 @@
 
 namespace Z38\SwissPayment\Tests\PaymentInformation;
 
+use DOMDocument;
+use DOMXPath;
+use LogicException;
 use Z38\SwissPayment\BIC;
 use Z38\SwissPayment\IBAN;
 use Z38\SwissPayment\Money;
@@ -53,11 +56,11 @@ class SEPAPaymentInformationTest extends TestCase
             new BIC('COBADEFFXXX')
         ));
 
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         $dom = $payment->asDom($doc);
         $doc->appendChild($dom);
 
-        $xpath = new \DOMXPath($doc);
+        $xpath = new DOMXPath($doc);
         self::assertEquals('SEPA', $xpath->evaluate('string(/PmtInf/PmtTpInf/SvcLvl/Cd)'));
         self::assertEquals(0, $xpath->evaluate('count(//CdtTrfTxInf/PmtTpInf)'));
     }
@@ -67,7 +70,7 @@ class SEPAPaymentInformationTest extends TestCase
      */
     public function testAsDomWithNonSEPATransaction()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('You can not set the service level on B- and C-level.');
         $payment = new SEPAPaymentInformation(
             'id000',
@@ -85,7 +88,7 @@ class SEPAPaymentInformationTest extends TestCase
             new BIC('UBSWCHZH80A')
         ));
 
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         $payment->asDom($doc);
     }
 }
