@@ -29,7 +29,9 @@ class BankCreditTransferWithQRR extends BankCreditTransfer
      * @param $creditorName
      * @param $creditorAddress
      * @param IBAN $creditorIBAN  IBAN of the creditor
-     * @param FinancialInstitutionInterface $creditorAgent BIC or IID of the creditor's financial institution
+     * @param FinancialInstitutionInterface $creditorAgent BIC or IID 
+	 *        of the creditor's financial institution
+	 *        You can build the IID from the IBAN number for QRR (Only CH+LI)
      * @param string $creditorReference QR reference number (QRR)
      */
     public function __construct(
@@ -47,7 +49,7 @@ class BankCreditTransferWithQRR extends BankCreditTransfer
         }
         $this->creditorReference = $creditorReference;
 
-        if (!preg_match('/^CH[0-9]{2}3/', $creditorIBAN->normalize())) {
+        if (!preg_match('/^(CH|LI)[0-9]{2}3/', $creditorIBAN->normalize())) {
             throw new InvalidArgumentException('The IBAN must be a QR-IBAN');
         }
 
