@@ -2,6 +2,7 @@
 
 namespace Z38\SwissPayment\Tests\TransactionInformation;
 
+use InvalidArgumentException;
 use Z38\SwissPayment\FinancialInstitutionInterface;
 use Z38\SwissPayment\IBAN;
 use Z38\SwissPayment\Money;
@@ -19,10 +20,10 @@ class ForeignCreditTransferTest extends TestCase
      */
     public function testInvalidCreditorAgent()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $creditorAgent = $this->createMock(FinancialInstitutionInterface::class);
 
-        $transfer = new ForeignCreditTransfer(
+        new ForeignCreditTransfer(
             'id000',
             'name',
             new Money\CHF(100),

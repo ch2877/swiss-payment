@@ -11,7 +11,7 @@ use Z38\SwissPayment\PostalAccount;
 use Z38\SwissPayment\Text;
 
 /**
- * IS2CreditTransfer contains all the information about a IS 2-stage (type 2.2) transaction.
+ * IS2CreditTransfer contains all the information about an IS 2-stage (type 2.2) transaction.
  */
 class IS2CreditTransfer extends CreditTransfer
 {
@@ -37,7 +37,7 @@ class IS2CreditTransfer extends CreditTransfer
      * @param string        $creditorAgentName   Name of the creditor's financial institution
      * @param PostalAccount $creditorAgentPostal Postal account of the creditor's financial institution
      *
-     * @throws \InvalidArgumentException When the amount is not in EUR or CHF.
+     * @throws InvalidArgumentException When the amount is not in EUR or CHF.
      */
     public function __construct($instructionId, $endToEndId, Money\Money $amount, $creditorName, $creditorAddress, IBAN $creditorIBAN, $creditorAgentName, PostalAccount $creditorAgentPostal)
     {

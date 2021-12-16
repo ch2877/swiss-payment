@@ -3,12 +3,17 @@
 namespace Z38\SwissPayment;
 
 use DOMDocument;
+use DOMElement;
+use DOMException;
 use InvalidArgumentException;
 
+/**
+ * This class permits to sanitize all texts
+ */
 class Text
 {
-    const TEXT_NON_CH = '/[^A-Za-z0-9 .,:\'\/()?+\-!"#%&*;<>÷=@_$£[\]{}\` ́~àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ]+/u';
-    const TEXT_NON_SWIFT = '/[^A-Za-z0-9 .,:\'\/()?+\-]+/';
+    private const TEXT_NON_CH = '/[^A-Za-z0-9 .,:\'\/()?+\-!"#%&*;<>÷=@_$£[\]{}\` ́~àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ]+/u';
+    private const TEXT_NON_SWIFT = '/[^A-Za-z0-9 .,:\'\/()?+\-]+/';
 
     /**
      * Sanitizes and trims a string to conform to the Swiss character
@@ -44,7 +49,9 @@ class Text
     }
 
     /**
-     * @internal
+     * @param $input
+     * @param $maxLength
+     * @return string|null
      */
     public static function assertOptional($input, $maxLength)
     {
@@ -56,7 +63,9 @@ class Text
     }
 
     /**
-     * @internal
+     * @param $input
+     * @param $maxLength
+     * @return string
      */
     public static function assert($input, $maxLength)
     {
@@ -64,7 +73,8 @@ class Text
     }
 
     /**
-     * @internal
+     * @param $input
+     * @return string
      */
     public static function assertIdentifier($input)
     {
@@ -77,7 +87,8 @@ class Text
     }
 
     /**
-     * @internal
+     * @param $input
+     * @return mixed
      */
     public static function assertCountryCode($input)
     {
@@ -88,6 +99,12 @@ class Text
         return $input;
     }
 
+    /**
+     * @param $input
+     * @param $maxLength
+     * @param $pattern
+     * @return string
+     */
     protected static function assertNotPattern($input, $maxLength, $pattern)
     {
         $length = function_exists('mb_strlen') ? mb_strlen($input, 'UTF-8') : strlen($input);
@@ -102,7 +119,11 @@ class Text
     }
 
     /**
-     * @internal
+     * @param DOMDocument $doc
+     * @param $tag
+     * @param $content
+     * @return DOMElement|false
+     * @throws DOMException
      */
     public static function xml(DOMDocument $doc, $tag, $content)
     {

@@ -2,8 +2,12 @@
 
 namespace Z38\SwissPayment\Tests;
 
+use InvalidArgumentException;
 use Z38\SwissPayment\IBAN;
 
+/**
+ * @coversDefaultClass \Z38\SwissPayment\IBAN
+ */
 class IBANTest extends TestCase
 {
     /**
@@ -72,6 +76,9 @@ class IBANTest extends TestCase
         self::assertEquals($instance->format(), (string) $instance);
     }
 
+    /**
+     * @return string[][]
+     */
     public function samplesValid()
     {
         return [
@@ -81,12 +88,17 @@ class IBANTest extends TestCase
         ];
     }
 
+    /**
+     * @param $iban
+     * @param $valid
+     * @return void
+     */
     protected function check($iban, $valid)
     {
         $exception = false;
         try {
-            $temp = new IBAN($iban);
-        } catch (\InvalidArgumentException $e) {
+            new IBAN($iban);
+        } catch (InvalidArgumentException $e) {
             $exception = true;
         }
         self::assertTrue($exception != $valid);

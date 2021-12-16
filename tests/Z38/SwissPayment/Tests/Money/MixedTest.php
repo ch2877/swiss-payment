@@ -5,6 +5,9 @@ namespace Z38\SwissPayment\Tests\Money;
 use Z38\SwissPayment\Money;
 use Z38\SwissPayment\Tests\TestCase;
 
+/**
+ * @coversDefaultClass \Z38\SwissPayment\Money\MixedMoney
+ */
 class MixedTest extends TestCase
 {
     /**

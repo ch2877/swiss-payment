@@ -9,7 +9,7 @@ use Z38\SwissPayment\PaymentInformation\PaymentInformation;
 use Z38\SwissPayment\PostalAccount;
 
 /**
- * IS1CreditTransfer contains all the information about a IS 1-stage (type 2.1) transaction.
+ * IS1CreditTransfer contains all the information about an IS 1-stage (type 2.1) transaction.
  */
 class IS1CreditTransfer extends CreditTransfer
 {
@@ -23,7 +23,7 @@ class IS1CreditTransfer extends CreditTransfer
      *
      * @param PostalAccount $creditorAccount Postal account of the creditor
      *
-     * @throws \InvalidArgumentException When the amount is not in EUR or CHF.
+     * @throws InvalidArgumentException When the amount is not in EUR or CHF.
      */
     public function __construct($instructionId, $endToEndId, Money\Money $amount, $creditorName, $creditorAddress, PostalAccount $creditorAccount)
     {

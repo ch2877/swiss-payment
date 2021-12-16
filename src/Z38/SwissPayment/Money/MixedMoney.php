@@ -41,7 +41,7 @@ class MixedMoney extends Money
     }
 
     /**
-     * Returns the sum of this and an other amount of money
+     * Returns the sum of this and another amount of money
      *
      * @param Money $addend The addend
      *
@@ -55,7 +55,7 @@ class MixedMoney extends Money
     }
 
     /**
-     * Returns the subtraction of this and an other amount of money
+     * Returns the subtraction of this and another amount of money
      *
      * @param Money $subtrahend The subtrahend
      *

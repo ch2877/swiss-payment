@@ -10,7 +10,7 @@ use InvalidArgumentException;
  */
 class PostalAccount implements AccountInterface
 {
-    const PATTERN = '/^[0-9]{2}-[1-9][0-9]{0,5}-[0-9]$/';
+    private const PATTERN = '/^[0-9]{2}-[1-9][0-9]{0,5}-[0-9]$/';
 
     /**
      * @var int
@@ -74,7 +74,8 @@ class PostalAccount implements AccountInterface
     }
 
     /**
-     * @internal
+     * @param $number
+     * @return bool
      */
     public static function validateCheckDigit($number)
     {

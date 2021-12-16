@@ -3,6 +3,7 @@
 namespace Z38\SwissPayment\Tests\TransactionInformation;
 
 use DOMDocument;
+use InvalidArgumentException;
 use Z38\SwissPayment\Tests\TestCase;
 use Z38\SwissPayment\TransactionInformation\PurposeCode;
 
@@ -20,6 +21,9 @@ class PurposeCodeTest extends TestCase
         self::assertInstanceOf('Z38\SwissPayment\TransactionInformation\PurposeCode', new PurposeCode($code));
     }
 
+    /**
+     * @return string[][]
+     */
     public function validSamples()
     {
         return [
@@ -36,10 +40,13 @@ class PurposeCodeTest extends TestCase
      */
     public function testInvalid($code)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new PurposeCode($code);
     }
 
+    /**
+     * @return string[][]
+     */
     public function invalidSamples()
     {
         return [

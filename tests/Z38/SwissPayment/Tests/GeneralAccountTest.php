@@ -2,8 +2,12 @@
 
 namespace Z38\SwissPayment\Tests;
 
+use InvalidArgumentException;
 use Z38\SwissPayment\GeneralAccount;
 
+/**
+ * @coversDefaultClass \Z38\SwissPayment\GeneralAccount
+ */
 class GeneralAccountTest extends TestCase
 {
     /**
@@ -20,8 +24,8 @@ class GeneralAccountTest extends TestCase
      */
     public function testInvalid()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $instance = new GeneralAccount('0123456789012345678901234567890123456789');
+        $this->expectException(InvalidArgumentException::class);
+        new GeneralAccount('0123456789012345678901234567890123456789');
     }
 
     /**
