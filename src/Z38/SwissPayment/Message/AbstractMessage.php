@@ -82,7 +82,7 @@ abstract class AbstractMessage implements MessageInterface
      */
     public function getSoftwareVersion()
     {
-        return '0.7.0';
+        return '2.1.0';
     }
 
     /**
