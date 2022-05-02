@@ -165,6 +165,10 @@ class PaymentInformation
      */
     public function setBatchBooking($batchBooking)
     {
+        if ($this->notificationInstruction && !$this->notificationInstruction->checkAgainstBatchBooking($batchBooking)) {
+            throw new InvalidArgumentException('Batch booking cannot be used with the current Notification Instruction');
+        }
+
         $this->batchBooking = boolval($batchBooking);
 
         return $this;
@@ -224,6 +228,9 @@ class PaymentInformation
      */
     public function setNotificationInstruction($notificationInstruction)
     {
+        if (!$notificationInstruction->checkAgainstBatchBooking($this->batchBooking)) {
+            throw new InvalidArgumentException('Notification instruction cannot be used with the current batch booking');
+        }
         $this->notificationInstruction = $notificationInstruction;
 
         return $this;

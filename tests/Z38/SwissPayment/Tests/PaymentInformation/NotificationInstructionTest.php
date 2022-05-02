@@ -71,4 +71,51 @@ class NotificationInstructionTest extends TestCase
         self::assertSame('Prtry', $xml->nodeName);
         self::assertSame('CWD', $xml->textContent);
     }
+
+    /**
+     * @dataProvider invalidCheckAgainstBatchBooking
+     * @covers ::checkAgainstBatchBooking
+     */
+    public function testInvalidCheckAgainstBatchBooking($instruction, $batchBooking)
+    {
+        $notificationInstruction = new NotificationInstruction($instruction);
+        self::assertFalse($notificationInstruction->checkAgainstBatchBooking($batchBooking));
+    }
+
+    /**
+     * @dataProvider validCheckAgainstBatchBooking
+     * @covers ::checkAgainstBatchBooking
+     */
+    public function testCheckAgainstBatchBooking($instruction, $batchBooking)
+    {
+        $notificationInstruction = new NotificationInstruction($instruction);
+        self::assertTrue($notificationInstruction->checkAgainstBatchBooking($batchBooking));
+    }
+
+    /**
+     * @return array[]
+     */
+    public function invalidCheckAgainstBatchBooking()
+    {
+        return [
+            ['CWD', false],
+            ['CND', false],
+            ['SIA', true],
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function validCheckAgainstBatchBooking()
+    {
+        return [
+            ['NOA', false],
+            ['SIA', false],
+            ['NOA', true],
+            ['CND', true],
+            ['CWD', true],
+        ];
+    }
+
 }

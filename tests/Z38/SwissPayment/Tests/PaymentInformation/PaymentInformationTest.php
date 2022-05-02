@@ -112,4 +112,43 @@ class PaymentInformationTest extends TestCase
         self::assertSame('CWD', $xpath->evaluate('string(./DbtrAcct/Tp/Prtry)', $xml));
     }
 
+    /**
+     * @covers ::setNotificationInstruction
+     */
+    public function testInvalidNotificationInstruction()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $payment = new PaymentInformation(
+            'id000',
+            'name',
+            new BIC('POFICHBEXXX'),
+            new IBAN('CH31 8123 9000 0012 4568 9')
+        );
+
+        $payment
+            ->setBatchBooking(false)
+            ->setNotificationInstruction(new NotificationInstruction('CWD'));
+    }
+
+    /**
+     * @covers ::setBatchBooking
+     */
+    public function testInvalidBatchBooking()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $payment = new PaymentInformation(
+            'id000',
+            'name',
+            new BIC('POFICHBEXXX'),
+            new IBAN('CH31 8123 9000 0012 4568 9')
+        );
+
+        $payment
+            ->setNotificationInstruction(new NotificationInstruction('CWD'))
+            ->setBatchBooking(false);
+    }
+
+
 }

@@ -34,6 +34,22 @@ class NotificationInstruction
     }
 
     /**
+     * @param string $instruction
+     * @param bool $batchBooking
+     * @return bool
+     */
+    public function checkAgainstBatchBooking($batchBooking)
+    {
+        if ($batchBooking === false && !in_array($this->instruction, ['NOA', 'SIA'], true)) {
+            return false;
+        }
+        if ($batchBooking === true && !in_array($this->instruction, ['NOA', 'CND', 'CWD'], true)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Returns an XML representation of this purpose
      *
      * @param DOMDocument $doc
