@@ -10,6 +10,7 @@ use Z38\SwissPayment\FinancialInstitutionInterface;
 use Z38\SwissPayment\IBAN;
 use Z38\SwissPayment\Money;
 use Z38\SwissPayment\PaymentInformation\CategoryPurposeCode;
+use Z38\SwissPayment\PaymentInformation\NotificationInstruction;
 use Z38\SwissPayment\PaymentInformation\PaymentInformation;
 use Z38\SwissPayment\PostalAccount;
 use Z38\SwissPayment\StructuredPostalAddress;
@@ -90,4 +91,64 @@ class PaymentInformationTest extends TestCase
         self::assertSame('CH02', $xpath->evaluate('string(./PmtTpInf/LclInstrm/Prtry)', $xml));
         self::assertSame(0.0, $xpath->evaluate('count(./CdtTrfTxInf/PmtTpInf/LclInstrm/Prtry)', $xml));
     }
+
+    /**
+     * @covers ::asDom
+     */
+    public function testNotificationInstruction()
+    {
+        $doc = new DOMDocument();
+        $payment = new PaymentInformation(
+            'id000',
+            'name',
+            new BIC('POFICHBEXXX'),
+            new IBAN('CH31 8123 9000 0012 4568 9')
+        );
+        $payment->setNotificationInstruction(new NotificationInstruction('CWD'));
+
+        $xml = $payment->asDom($doc);
+        $xpath = new DOMXPath($doc);
+
+        self::assertSame('CWD', $xpath->evaluate('string(./DbtrAcct/Tp/Prtry)', $xml));
+    }
+
+    /**
+     * @covers ::setNotificationInstruction
+     */
+    public function testInvalidNotificationInstruction()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $payment = new PaymentInformation(
+            'id000',
+            'name',
+            new BIC('POFICHBEXXX'),
+            new IBAN('CH31 8123 9000 0012 4568 9')
+        );
+
+        $payment
+            ->setBatchBooking(false)
+            ->setNotificationInstruction(new NotificationInstruction('CWD'));
+    }
+
+    /**
+     * @covers ::setBatchBooking
+     */
+    public function testInvalidBatchBooking()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $payment = new PaymentInformation(
+            'id000',
+            'name',
+            new BIC('POFICHBEXXX'),
+            new IBAN('CH31 8123 9000 0012 4568 9')
+        );
+
+        $payment
+            ->setNotificationInstruction(new NotificationInstruction('CWD'))
+            ->setBatchBooking(false);
+    }
+
+
 }
