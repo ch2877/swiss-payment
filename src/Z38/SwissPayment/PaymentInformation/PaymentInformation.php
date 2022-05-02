@@ -71,6 +71,11 @@ class PaymentInformation
     protected $debtorIBAN;
 
     /**
+     * @var NotificationInstruction|null
+     */
+    protected $notificationInstruction;
+
+    /**
      * Constructor
      *
      * @param string  $id          Identifier of this group (should be unique within a message)
@@ -210,6 +215,21 @@ class PaymentInformation
     }
 
     /**
+     * Sets the notification Instruction
+     * Can be used to control the debit advice
+     *
+     * @param NotificationInstruction $notificationInstruction
+     *
+     * @return PaymentInformation This payment instruction
+     */
+    public function setNotificationInstruction($notificationInstruction)
+    {
+        $this->notificationInstruction = $notificationInstruction;
+
+        return $this;
+    }
+
+    /**
      * Builds a DOM tree of this payment instruction
      *
      * @param DOMDocument $doc
@@ -259,6 +279,11 @@ class PaymentInformation
         $debtorAccountId = $doc->createElement('Id');
         $debtorAccountId->appendChild($doc->createElement('IBAN', $this->debtorIBAN->normalize()));
         $debtorAccount->appendChild($debtorAccountId);
+        if ($this->notificationInstruction) {
+            $debtorAccountTp = $doc->createElement('Tp');
+            $debtorAccountTp->appendChild($this->notificationInstruction->asDom($doc));
+            $debtorAccount->appendChild($debtorAccountTp);
+        }
         $root->appendChild($debtorAccount);
 
         $debtorAgent = $doc->createElement('DbtrAgt');
