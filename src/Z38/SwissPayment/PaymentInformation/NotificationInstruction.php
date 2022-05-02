@@ -34,7 +34,6 @@ class NotificationInstruction
     }
 
     /**
-     * @param string $instruction
      * @param bool $batchBooking
      * @return bool
      */
