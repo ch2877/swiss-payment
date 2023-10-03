@@ -11,6 +11,7 @@ use Z38\SwissPayment\BIC;
 use Z38\SwissPayment\FinancialInstitutionInterface;
 use Z38\SwissPayment\IBAN;
 use Z38\SwissPayment\IID;
+use Z38\SwissPayment\Message\CustomerCreditTransfer;
 use Z38\SwissPayment\Money;
 use Z38\SwissPayment\Text;
 use Z38\SwissPayment\TransactionInformation\CreditTransfer;
@@ -213,10 +214,10 @@ class PaymentInformation
      * Builds a DOM tree of this payment instruction
      *
      * @param DOMDocument $doc
-     *
+     * @param string $spsVersion
      * @return DOMElement The built DOM tree
      */
-    public function asDom(DOMDocument $doc)
+    public function asDom(DOMDocument $doc, string $spsVersion)
     {
         $root = $doc->createElement('PmtInf');
 
@@ -249,7 +250,14 @@ class PaymentInformation
             $root->appendChild($paymentType);
         }
 
-        $root->appendChild($doc->createElement('ReqdExctnDt', $this->executionDate->format('Y-m-d')));
+        // Conditional formatting for SPS-2021
+        if ($spsVersion === CustomerCreditTransfer::SPS_2021) {
+            $executionDate = $doc->createElement('ReqdExctnDt', $this->executionDate->format('Y-m-d'));
+        } else {
+            $executionDate = $doc->createElement('ReqdExctnDt');
+            $executionDate->appendChild($doc->createElement('Dt', $this->executionDate->format('Y-m-d')));
+        }
+        $root->appendChild($executionDate);
 
         $debtor = $doc->createElement('Dbtr');
         $debtor->appendChild(Text::xml($doc, 'Nm', $this->debtorName));
@@ -262,7 +270,7 @@ class PaymentInformation
         $root->appendChild($debtorAccount);
 
         $debtorAgent = $doc->createElement('DbtrAgt');
-        $debtorAgent->appendChild($this->debtorAgent->asDom($doc));
+        $debtorAgent->appendChild($this->debtorAgent->asDom($doc, $spsVersion));
         $root->appendChild($debtorAgent);
 
         foreach ($this->transactions as $transaction) {
@@ -274,7 +282,7 @@ class PaymentInformation
                     throw new LogicException('You can not set the service level on B- and C-level.');
                 }
             }
-            $root->appendChild($transaction->asDom($doc, $this));
+            $root->appendChild($transaction->asDom($doc, $this, $spsVersion));
         }
 
         return $root;

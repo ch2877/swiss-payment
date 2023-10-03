@@ -7,6 +7,7 @@ use DOMXPath;
 use LogicException;
 use Z38\SwissPayment\BIC;
 use Z38\SwissPayment\IBAN;
+use Z38\SwissPayment\Message\CustomerCreditTransfer;
 use Z38\SwissPayment\Money;
 use Z38\SwissPayment\PaymentInformation\SEPAPaymentInformation;
 use Z38\SwissPayment\StructuredPostalAddress;
@@ -57,7 +58,7 @@ class SEPAPaymentInformationTest extends TestCase
         ));
 
         $doc = new DOMDocument();
-        $dom = $payment->asDom($doc);
+        $dom = $payment->asDom($doc, CustomerCreditTransfer::SPS_2022);
         $doc->appendChild($dom);
 
         $xpath = new DOMXPath($doc);
@@ -89,6 +90,6 @@ class SEPAPaymentInformationTest extends TestCase
         ));
 
         $doc = new DOMDocument();
-        $payment->asDom($doc);
+        $payment->asDom($doc, CustomerCreditTransfer::SPS_2022);
     }
 }

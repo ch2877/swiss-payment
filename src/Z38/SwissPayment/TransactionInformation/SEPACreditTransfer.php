@@ -45,7 +45,7 @@ class SEPACreditTransfer extends CreditTransfer
     /**
      * {@inheritdoc}
      */
-    public function asDom(DOMDocument $doc, PaymentInformation $paymentInformation)
+    public function asDom(DOMDocument $doc, PaymentInformation $paymentInformation, string $spsVersion)
     {
         $root = $this->buildHeader($doc, $paymentInformation);
 
@@ -53,7 +53,7 @@ class SEPACreditTransfer extends CreditTransfer
 
         if ($this->creditorAgentBIC !== null) {
             $creditorAgent = $doc->createElement('CdtrAgt');
-            $creditorAgent->appendChild($this->creditorAgentBIC->asDom($doc));
+            $creditorAgent->appendChild($this->creditorAgentBIC->asDom($doc, $spsVersion));
             $root->appendChild($creditorAgent);
         }
 

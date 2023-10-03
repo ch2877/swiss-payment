@@ -8,12 +8,14 @@ use InvalidArgumentException;
 use Z38\SwissPayment\BIC;
 use Z38\SwissPayment\FinancialInstitutionInterface;
 use Z38\SwissPayment\IBAN;
+use Z38\SwissPayment\Message\CustomerCreditTransfer;
 use Z38\SwissPayment\Money;
 use Z38\SwissPayment\PaymentInformation\CategoryPurposeCode;
 use Z38\SwissPayment\PaymentInformation\PaymentInformation;
 use Z38\SwissPayment\PostalAccount;
 use Z38\SwissPayment\StructuredPostalAddress;
 use Z38\SwissPayment\Tests\TestCase;
+use Z38\SwissPayment\TransactionInformation\BankCreditTransfer;
 use Z38\SwissPayment\TransactionInformation\IS1CreditTransfer;
 
 /**
@@ -55,7 +57,7 @@ class PaymentInformationTest extends TestCase
     /**
      * @covers ::asDom
      */
-    public function testInfersPaymentInformation()
+    public function testInfersPaymentInformationSPS2021()
     {
         $doc = new DOMDocument();
         $payment = new PaymentInformation(
@@ -82,12 +84,59 @@ class PaymentInformationTest extends TestCase
             new PostalAccount('80-151-4')
         ));
 
-        $xml = $payment->asDom($doc);
+        $xml = $payment->asDom($doc, CustomerCreditTransfer::SPS_2021);
 
         $xpath = new DOMXPath($doc);
         self::assertNull($payment->getServiceLevel());
         self::assertNull($payment->getLocalInstrument());
         self::assertSame('CH02', $xpath->evaluate('string(./PmtTpInf/LclInstrm/Prtry)', $xml));
+        self::assertSame(0.0, $xpath->evaluate('count(./CdtTrfTxInf/PmtTpInf/LclInstrm/Prtry)', $xml));
+    }
+
+    /**
+     * @covers ::asDom
+     */
+    public function testInfersPaymentInformationSPS2022()
+    {
+        $doc = new DOMDocument();
+        $payment = new PaymentInformation(
+            'id000',
+            'name',
+            new BIC('POFICHBEXXX'),
+            new IBAN('CH31 8123 9000 0012 4568 9')
+        );
+        $payment->setCategoryPurpose(new CategoryPurposeCode('SALA'));
+
+        $transaction = new BankCreditTransfer(
+            'instr-001',
+            'e2e-001',
+            new Money\CHF(130000), // CHF 1300.00
+            'Fritz Bischof',
+            new StructuredPostalAddress('Dorfstrasse', '17', '9911', 'Musterwald'),
+            new IBAN('CH51 0022 5225 9529 1301 C'),
+            new BIC('UBSWCHZH80A')
+        );
+        $transaction->setRemittanceInformation("Test Remittance");
+        $payment->addTransaction($transaction);
+
+        $transaction = new BankCreditTransfer(
+            'instr-002',
+            'e2e-002',
+            new Money\CHF(130000), // CHF 1300.00
+            'Franziska Meier',
+            new StructuredPostalAddress('Altstadt', '1a', '4998', 'Muserhausen'),
+            new IBAN('CH51 0022 5225 9529 1301 C'),
+            new BIC('UBSWCHZH80A')
+        );
+        $transaction->setRemittanceInformation("Test Remittance");
+        $payment->addTransaction($transaction);
+
+        $xml = $payment->asDom($doc, CustomerCreditTransfer::SPS_2022);
+
+        $xpath = new DOMXPath($doc);
+        self::assertNull($payment->getServiceLevel());
+        self::assertNull($payment->getLocalInstrument());
+        self::assertEmpty($xpath->evaluate('string(./PmtTpInf/LclInstrm/Prtry)', $xml));
         self::assertSame(0.0, $xpath->evaluate('count(./CdtTrfTxInf/PmtTpInf/LclInstrm/Prtry)', $xml));
     }
 }

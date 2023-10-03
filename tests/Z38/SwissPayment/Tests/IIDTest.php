@@ -7,6 +7,7 @@ use DOMXPath;
 use InvalidArgumentException;
 use Z38\SwissPayment\IBAN;
 use Z38\SwissPayment\IID;
+use Z38\SwissPayment\Message\CustomerCreditTransfer;
 
 /**
  * @coversDefaultClass \Z38\SwissPayment\IID
@@ -104,7 +105,7 @@ class IIDTest extends TestCase
         $doc = new DOMDocument();
         $iid = new IID('09000');
 
-        $xml = $iid->asDom($doc);
+        $xml = $iid->asDom($doc, CustomerCreditTransfer::SPS_2022);
 
         $xpath = new DOMXPath($doc);
         $this->assertSame('9000', $xpath->evaluate('string(.//MmbId)', $xml));

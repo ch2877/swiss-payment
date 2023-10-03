@@ -7,6 +7,7 @@ use DOMElement;
 use InvalidArgumentException;
 use LogicException;
 use Z38\SwissPayment\ISRParticipant;
+use Z38\SwissPayment\Message\CustomerCreditTransfer;
 use Z38\SwissPayment\Money;
 use Z38\SwissPayment\PaymentInformation\PaymentInformation;
 use Z38\SwissPayment\PostalAccount;
@@ -35,6 +36,7 @@ class ISRCreditTransfer extends CreditTransfer
      * @param string         $creditorReference ISR reference number
      *
      * @throws InvalidArgumentException When the amount or the creditor reference is invalid.
+     * @noinspection PhpMissingParentConstructorInspection
      */
     public function __construct($instructionId, $endToEndId, Money\Money $amount, ISRParticipant $creditorAccount, $creditorReference)
     {
@@ -80,8 +82,12 @@ class ISRCreditTransfer extends CreditTransfer
     /**
      * {@inheritdoc}
      */
-    public function asDom(DOMDocument $doc, PaymentInformation $paymentInformation)
+    public function asDom(DOMDocument $doc, PaymentInformation $paymentInformation, string $spsVersion)
     {
+        if ($spsVersion !== CustomerCreditTransfer::SPS_2021) {
+            throw new LogicException('ISR payments can only be created until SPS 2021 version');
+        }
+
         $root = $this->buildHeader($doc, $paymentInformation);
 
         if (strlen($this->creditorName) && isset($this->creditorAddress)) {

@@ -4,7 +4,9 @@ namespace Z38\SwissPayment\TransactionInformation;
 
 use DOMDocument;
 use InvalidArgumentException;
+use LogicException;
 use Z38\SwissPayment\IBAN;
+use Z38\SwissPayment\Message\CustomerCreditTransfer;
 use Z38\SwissPayment\Money;
 use Z38\SwissPayment\PaymentInformation\PaymentInformation;
 use Z38\SwissPayment\PostalAccount;
@@ -59,8 +61,12 @@ class IS2CreditTransfer extends CreditTransfer
     /**
      * {@inheritdoc}
      */
-    public function asDom(DOMDocument $doc, PaymentInformation $paymentInformation)
+    public function asDom(DOMDocument $doc, PaymentInformation $paymentInformation, string $spsVersion)
     {
+        if ($spsVersion !== CustomerCreditTransfer::SPS_2021) {
+            throw new LogicException('IS 2-stage payments can only be created until SPS 2021 version');
+        }
+
         $root = $this->buildHeader($doc, $paymentInformation);
 
         $creditorAgent = $doc->createElement('CdtrAgt');

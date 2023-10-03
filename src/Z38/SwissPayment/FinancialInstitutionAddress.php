@@ -37,8 +37,10 @@ class FinancialInstitutionAddress implements FinancialInstitutionInterface
     /**
      * {@inheritdoc}
      */
-    public function asDom(DOMDocument $doc)
+    public function asDom(DOMDocument $doc, string $spsVersion)
     {
+        unset($spsVersion);
+
         $xml = $doc->createElement('FinInstnId');
         $xml->appendChild(Text::xml($doc, 'Nm', $this->name));
         $xml->appendChild($this->address->asDom($doc));
