@@ -1,5 +1,9 @@
 # SwissPayment Changelog
 
+## 3.0.0 (2023-10-02)
+
+  * SPS 2022 compatibility
+
 ## 2.0.0 (2021-10-19)
 
   * Added support for QR Bills (BankCreditTransferWithCreditorReference, BankCreditTransferWithQRR)

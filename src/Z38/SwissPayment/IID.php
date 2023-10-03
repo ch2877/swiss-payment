@@ -61,8 +61,10 @@ class IID implements FinancialInstitutionInterface
     /**
      * {@inheritdoc}
      */
-    public function asDom(DOMDocument $doc)
+    public function asDom(DOMDocument $doc, string $spsVersion)
     {
+        unset($spsVersion);
+
         $xml = $doc->createElement('FinInstnId');
         $clearingSystem = $doc->createElement('ClrSysMmbId');
         $clearingSystemId = $doc->createElement('ClrSysId');
