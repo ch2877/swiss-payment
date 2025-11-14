@@ -13,6 +13,7 @@ use Z38\SwissPayment\ISRParticipant;
 use Z38\SwissPayment\Message\CustomerCreditTransfer;
 use Z38\SwissPayment\Money;
 use Z38\SwissPayment\PaymentInformation\CategoryPurposeCode;
+use Z38\SwissPayment\PaymentInformation\NotificationInstruction;
 use Z38\SwissPayment\PaymentInformation\PaymentInformation;
 use Z38\SwissPayment\PaymentInformation\SEPAPaymentInformation;
 use Z38\SwissPayment\PostalAccount;
@@ -229,6 +230,7 @@ class CustomerCreditTransferTest extends TestCase
             new BIC('ZKBKCHZZ80A'),
             new IBAN('CH6600700110000204481')
         );
+        $payment->setNotificationInstruction(new NotificationInstruction('CWD'));
         $message->addPayment($payment);
 
         $qrIban = new IBAN('CH44 3199 9123 0008 8901 2');

@@ -71,6 +71,11 @@ class PaymentInformation
     protected $debtorIBAN;
 
     /**
+     * @var NotificationInstruction|null
+     */
+    protected $notificationInstruction;
+
+    /**
      * Constructor
      *
      * @param string  $id          Identifier of this group (should be unique within a message)
@@ -160,6 +165,10 @@ class PaymentInformation
      */
     public function setBatchBooking($batchBooking)
     {
+        if ($this->notificationInstruction && !$this->notificationInstruction->checkAgainstBatchBooking($batchBooking)) {
+            throw new InvalidArgumentException('Batch booking cannot be used with the current Notification Instruction');
+        }
+
         $this->batchBooking = boolval($batchBooking);
 
         return $this;
@@ -205,6 +214,24 @@ class PaymentInformation
     public function setCategoryPurpose(CategoryPurposeCode $categoryPurpose)
     {
         $this->categoryPurpose = $categoryPurpose;
+
+        return $this;
+    }
+
+    /**
+     * Sets the notification Instruction
+     * Can be used to control the debit advice
+     *
+     * @param NotificationInstruction $notificationInstruction
+     *
+     * @return PaymentInformation This payment instruction
+     */
+    public function setNotificationInstruction($notificationInstruction)
+    {
+        if (!$notificationInstruction->checkAgainstBatchBooking($this->batchBooking)) {
+            throw new InvalidArgumentException('Notification instruction cannot be used with the current batch booking');
+        }
+        $this->notificationInstruction = $notificationInstruction;
 
         return $this;
     }
@@ -259,6 +286,11 @@ class PaymentInformation
         $debtorAccountId = $doc->createElement('Id');
         $debtorAccountId->appendChild($doc->createElement('IBAN', $this->debtorIBAN->normalize()));
         $debtorAccount->appendChild($debtorAccountId);
+        if ($this->notificationInstruction) {
+            $debtorAccountTp = $doc->createElement('Tp');
+            $debtorAccountTp->appendChild($this->notificationInstruction->asDom($doc));
+            $debtorAccount->appendChild($debtorAccountTp);
+        }
         $root->appendChild($debtorAccount);
 
         $debtorAgent = $doc->createElement('DbtrAgt');
