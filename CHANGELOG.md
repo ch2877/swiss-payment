@@ -4,6 +4,10 @@
 
   * SPS 2022 compatibility
 
+## 2.0.1 (2025-08-14)
+
+  * Maintained fork by @sdespont
+
 ## 2.0.0 (2021-10-19)
 
   * Added support for QR Bills (BankCreditTransferWithCreditorReference, BankCreditTransferWithQRR)
