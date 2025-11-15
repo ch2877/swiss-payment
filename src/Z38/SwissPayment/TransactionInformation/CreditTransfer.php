@@ -144,12 +144,12 @@ abstract class CreditTransfer
     /**
      * Builds a DOM tree of this transaction
      *
-     * @param DOMDocument       $doc
+     * @param DOMDocument $doc
      * @param PaymentInformation $paymentInformation Information on B-level
-     *
+     * @param string $spsVersion
      * @return DOMElement The built DOM tree
      */
-    abstract public function asDom(DOMDocument $doc, PaymentInformation $paymentInformation);
+    abstract public function asDom(DOMDocument $doc, PaymentInformation $paymentInformation, string $spsVersion);
 
     /**
      * Builds a DOM tree of this transaction and adds header nodes
